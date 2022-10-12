@@ -2,20 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\{Get,Put,Delete,Post};
+use ApiPlatform\Metadata\{ApiFilter, Get,Put,Delete,Post};
 use ApiPlatform\Metadata\GetCollection;
+
+use ApiPlatform\Api\IriConverterInterface;
 
 #[ApiResource(
     operations: [
         new Get(),
         new Put(),
         new Delete(),
-        new GetCollection(),
-        new Post(), ]
+        new GetCollection(),]
 )]
+#[ApiFilter(SearchFilter::class, properties:[
+    'firstName'=> SearchFilter::STRATEGY_PARTIAL,
+    'lastName'=> SearchFilter::STRATEGY_PARTIAL,
+])]
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
