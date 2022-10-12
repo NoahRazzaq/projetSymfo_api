@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,9 +34,11 @@ class Movie
     private ?Genre $genre = null;
 
     #[ORM\ManyToMany(targetEntity: Person::class)]
+    #[ORM\JoinTable(name: 'movie_actors')]
     private Collection $actors;
 
     #[ORM\ManyToMany(targetEntity: Person::class)]
+    #[ORM\JoinTable(name: 'movie_directors')]
     private Collection $directors;
 
     public function __construct()

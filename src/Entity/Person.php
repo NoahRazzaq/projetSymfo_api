@@ -2,9 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\{Get,Put,Delete,Post};
+use ApiPlatform\Metadata\GetCollection;
 
+#[ApiResource(
+    operations: [
+        new Get(),
+        new Put(),
+        new Delete(),
+        new GetCollection(),
+        new Post(), ]
+)]
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
