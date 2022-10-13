@@ -3,25 +3,29 @@
 namespace App\Entity;
 
 use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
+use Doctrine\ODM\MongoDB\Types;
+use Symfony\Component\Validator\Constraints\Type;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\{ApiFilter, Get,Put,Delete,Post};
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+
 
 use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\FilterInterface;
 
 #[ApiResource(
     operations: [
         new Get(),
         new Put(),
+        new Post(),
         new Delete(),
         new GetCollection(),]
 )]
-#[ApiFilter(SearchFilter::class, properties:[
-    'firstName'=> SearchFilter::STRATEGY_PARTIAL,
-    'lastName'=> SearchFilter::STRATEGY_PARTIAL,
-])]
+#[ApiFilter(OrderFilter::class, properties: ['firstName', 'lastName'], arguments: ['orderParameterName' => 'order'])]
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
