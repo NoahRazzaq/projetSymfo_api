@@ -6,10 +6,11 @@ use App\Entity\Person;
 use App\Entity\Movie;
 use App\Entity\Genre;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class MovieFixtures extends Fixture
+class MovieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -43,5 +44,10 @@ class MovieFixtures extends Fixture
             }
         }
         $manager->flush();  
+    }
+
+    public function getDependencies()
+    {
+        return[GenreFixtures::class, PersonFixtures::class];
     }
 }

@@ -12,7 +12,7 @@ use ApiPlatform\Metadata\{ApiFilter, Get,Put,Delete,Post};
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\FilterInterface;
@@ -32,12 +32,15 @@ class Person
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['movie'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['movie'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['movie'])]
     private ?string $lastName = null;
 
     public function getId(): ?int

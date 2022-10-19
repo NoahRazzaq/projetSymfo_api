@@ -8,47 +8,63 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\{ApiFilter, Get,Put,Delete,Post};
+use ApiPlatform\Metadata\{ApiFilter, Get,Put,Delete, Link, Post};
 use ApiPlatform\Metadata\GetCollection;
+use App\State\MovieProvider;
+use Doctrine\ORM\Query\AST\FromClause;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ApiResource(
     operations: [
         new Get(),
-        new Put(),
         new Post(),
+        new Put(),
         new Delete(),
-        new GetCollection(),]
+        new GetCollection()],
+
+    normalizationContext:['groups'=>['movie']]
+       
 )]
+
+
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['movie'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['movie'])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['movie'])]
     private ?int $duration = null;
 
     #[ORM\Column]
+    #[Groups(['movie'])]
     private ?int $productionYear = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['movie'])]
     private ?string $synopsis = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['movie','item'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Genre $genre = null;
 
     #[ORM\ManyToMany(targetEntity: Person::class)]
+    #[Groups(['movie','item'])]
     #[ORM\JoinTable(name: 'movie_actors')]
     private Collection $actors;
 
     #[ORM\ManyToMany(targetEntity: Person::class)]
+    #[Groups(['movie'])]
     #[ORM\JoinTable(name: 'movie_directors')]
     private Collection $directors;
 

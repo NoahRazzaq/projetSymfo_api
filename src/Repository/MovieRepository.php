@@ -63,4 +63,15 @@ class MovieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getMovies():array
+    {
+        return $this->createQueryBuilder('m')
+                    ->addSelect('g')
+                    ->join('m.genre', 'g')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+
 }
